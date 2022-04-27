@@ -85,6 +85,31 @@ public:
     }
 };
 
+// 简化上面前序遍历递归法的回溯细节：
+class Solution {
+public:
+    int result;
+    void getDepth(TreeNode* node, int depth) {
+        result = depth > result ? depth : result;       // 中
+        if (node->left == NULL && node->right == NULL) return ;
+        if (node->left) {       // 左
+            getDepth(node->left, depth + 1);
+        }
+        if (node->right) {      // 右
+            getDepth(node->right, depth + 1);
+        }
+        return ;
+    }
+    int maxDepth(TreeNode* root) {
+        result = 0;
+        if (root == 0) return result;
+        getDepth(root, 1);
+        return result;
+    }
+};
+
+
+
 /*
 迭代法：
 使用迭代法的话，使用层序遍历是最为合适的，因为最大的深度就是二叉树的层数，和层序遍历的方式极其吻合。
