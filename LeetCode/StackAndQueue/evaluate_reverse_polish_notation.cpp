@@ -50,7 +50,7 @@ public:
                 if (tokens[i] == "*") st.push(num2 * num1);
                 if (tokens[i] == "/") st.push(num2 / num1);
             } else {
-                //stoi()将字符串转为整型数值
+                //stio()将字符串转为整型数值
                 st.push(stio(tokens[i]));
             }
         }

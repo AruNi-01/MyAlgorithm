@@ -61,6 +61,7 @@ public:
 
         // 最大值所在的下标左区间，递归构造左子树
         if (maxValueIndex > 0) {
+            // vector(begin, end)：复制[begin,end)区间内另一个数组的元素到vector中
             vector<int> newVec(nums.begin(), nums.begin() + maxValueIndex);
             node->left = constructMaximumBinaryTree(newVec);
         }
