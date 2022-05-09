@@ -73,8 +73,6 @@ int main() {
     cout<<"stack top elem is: "<<e2<<endl;
 
     //PrintStack(&stack);
-
-
     system("pause");
     return 0;
 }
