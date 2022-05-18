@@ -1,5 +1,5 @@
 /*
- * @Descripttion: 
+ * @Descripttion: 53. 最大子序和
  * @Author: AruNi
  * @Date: 2022-05-17 21:39:21
  */
@@ -49,4 +49,4 @@ public:
     }
 };
 
-// 本题也可用DP，在DP中有此题
+// 本题也可用DP，在DP目录中有此题
