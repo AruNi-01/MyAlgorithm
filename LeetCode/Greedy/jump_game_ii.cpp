@@ -55,3 +55,30 @@ public:
         return ans;
     }
 };
+
+/* 
+方法二：
+    针对于方法一的特殊情况，可以统一处理，即：移动下标只要遇到当前覆盖最远距离的下标，
+    直接步数加一，不考虑是不是终点的情况。
+    想要达到这样的效果，只要让移动下标，最大只能移动到nums.size - 2的地方就可以了
+    因为当移动下标指向nums.size - 2时：
+        如果移动下标等于当前覆盖最大距离下标，需要再走一步（即ans++），因为最后一步一定是可以到的终点
+        如果移动下标不等于当前覆盖最大距离下标，说明当前覆盖最远距离就可以直接达到终点了，不需要再走一步
+*/
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int curDistance = 0;
+        int ans = 0;
+        int nextDistance = 0;
+        // 注意这里是小于nums.size() - 1，最大只能移动到nums.size - 2的地方
+        for (int i = 0; i < nums.size() - 1; i++) {
+            nextDistance = max(nums[i] + i, nextDistance);      // 更新下一步覆盖的最远距离下标
+            if (i == curDistance) {     // 遇到当前覆盖的最远距离下标
+                curDistance = nextDistance;
+                ans++;
+            }
+        }
+        return ans;
+    }
+};
