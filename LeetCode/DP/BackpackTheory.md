@@ -341,3 +341,125 @@ int main() {
 可以看出，一维dp 的01背包，要比二维简洁的多！ 初始化 和 遍历顺序相对简单了。
 
 **所以最好使用一维dp数组的写法，比较直观简洁，而且空间复杂度还降了一个数量级**!
+
+## 完全背包
+
+有N件物品和一个最多能背重量为W的背包。第i件物品的重量是 weight[i]，得到的价值是 value[i] 。**每件物品都有无限个**（也就是可以放入背包多次），求解将哪些物品装入背包里物品价值总和最大。
+
+**完全背包和01背包问题唯一不同的地方就是，每种物品有无限件**。
+
+例子：
+
+背包最大重量为4。
+
+物品为：
+
+|       | 重量 | 价值 |
+| ----- | ---- | ---- |
+| 物品0 | 1    | 15   |
+| 物品1 | 3    | 20   |
+| 物品2 | 4    | 30   |
+
+**每件商品都有无限个！**
+
+问背包能背的物品最大价值是多少？
+
+01背包和完全背包唯一不同就是体现在遍历顺序上，所以直接针对遍历顺序经行分析！
+
+首先在回顾一下01背包的核心代码
+
+```cpp
+for(int i = 0; i < weight.size(); i++) { // 遍历物品
+    for(int j = bagWeight; j >= weight[i]; j--) { // 遍历背包容量
+        dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+    }
+}
+```
+
+我们知道01背包内嵌的循环是从大到小遍历，为了保证每个物品仅被添加一次。
+
+而完全背包的物品是可以添加多次的，所以要从小到大去遍历，即：
+
+```cpp
+// 先遍历物品，再遍历背包
+for(int i = 0; i < weight.size(); i++) { // 遍历物品
+    for(int j = weight[i]; j <= bagWeight ; j++) { // 遍历背包容量
+        dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+
+    }
+}
+```
+
+dp状态图如下：
+
+![动态规划-完全背包](https://img-blog.csdnimg.cn/20210126104510106.jpg)
+
+**01背包**中二维dp数组的两个for遍历的先后循序是可以颠倒了，一维dp数组的两个for循环先后循序一定是先遍历物品，再遍历背包容量。
+
+**在完全背包中，对于一维dp数组来说，其实两个for循环嵌套顺序同样无所谓**!
+
+因为 dp[j] 是根据 下标j之前所对应的dp[j]计算出来的。 只要保证下标j之前的dp[j] 都是经过计算的就可以了。
+
+遍历物品在外层循环，遍历背包容量在内层循环，状态如图：
+
+![动态规划-完全背包1](https://img-blog.csdnimg.cn/20210126104529605.jpg)
+
+遍历背包容量在外层循环，遍历物品在内层循环，状态如图：
+
+![动态规划-完全背包2](https://code-thinking-1253855093.file.myqcloud.com/pics/20210729234011.png)
+
+看了这两个图，就会理解完全背包中，两个for循环的先后循序，都不影响计算 dp[j] 所需要的值（这个值就是下标j之前所对应的dp[j]）。
+
+先遍历背包在遍历物品，代码如下：
+
+```cpp
+// 先遍历背包，再遍历物品
+for(int j = 0; j <= bagWeight; j++) { // 遍历背包容量
+    for(int i = 0; i < weight.size(); i++) { // 遍历物品
+        if (j - weight[i] >= 0) dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+    }
+    cout << endl;
+}
+```
+
+完整的C++测试代码如下：
+
+```cpp
+// 先遍历物品，在遍历背包
+void test_CompletePack() {
+    vector<int> weight = {1, 3, 4};
+    vector<int> value = {15, 20, 30};
+    int bagWeight = 4;
+    vector<int> dp(bagWeight + 1, 0);
+    for(int i = 0; i < weight.size(); i++) { // 遍历物品
+        for(int j = weight[i]; j <= bagWeight; j++) { // 遍历背包容量
+            dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+        }
+    }
+    cout << dp[bagWeight] << endl;
+}
+int main() {
+    test_CompletePack();
+}
+
+
+// 先遍历背包，再遍历物品
+void test_CompletePack() {
+    vector<int> weight = {1, 3, 4};
+    vector<int> value = {15, 20, 30};
+    int bagWeight = 4;
+
+    vector<int> dp(bagWeight + 1, 0);
+
+    for(int j = 0; j <= bagWeight; j++) { // 遍历背包容量
+        for(int i = 0; i < weight.size(); i++) { // 遍历物品
+            if (j - weight[i] >= 0) dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+        }
+    }
+    cout << dp[bagWeight] << endl;
+}
+int main() {
+    test_CompletePack();
+}
+```
+
