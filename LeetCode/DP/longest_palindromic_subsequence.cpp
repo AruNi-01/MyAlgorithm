@@ -1,5 +1,5 @@
 /*
- * @Descripttion: 
+ * @Descripttion: 516. 最长回文子序列
  * @Author: AruNi_Lu
  * @Date: 2022-06-16 22:23:44
  */
