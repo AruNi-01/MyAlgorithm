@@ -1,72 +1,48 @@
+/*
+ * @Descripttion: 
+ * @Author: AruNi_Lu
+ * @Date: 2022-04-19 13:27:07
+ */
 #include<iostream>
 using namespace std;
+#include<algorithm>
+#include<vector>
 
-long Partition (int a[], long p1, long p2)
-{//对a[p1]~a[p2]进行分割，返回分割点的序号
- long i, j;
- int x;
- i =p1;
- j =p2;
- x =a[i];
- while (i<j)
- {
-  while ( a[j]>=x &&  i<j ) j-- ;  //右左扫描
-  if (i<j)  {a[i]=a[j]; i++;}
-  while (a[i]<=x && i<j ) i++; //左右扫描
-  if (i<j) {a[j] =a[i]; j--;}
- }
- a[i]=x;
- return i;
-}
 
-long SortQuick(int a[], long p1, long p2)
-  {// 对a[p1]~a[p2]中元素排序 
-   long p; 
-   if (p1<p2) 
-   {  
-     p = Partition(a, p1,p2); 
-     SortQuick(a, p1, p-1); 
-     SortQuick(a, p+1, p2);  
-     return p2-p1+1;
-    }
-   return 0;
-  } 
+double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+	int i = 0, j = 0;
+	vector<int> merge;
 
-void ShellSort(int r[], int n)
-{
-	int d,i,j,k;
-	for( d=1;d<=n/2;d=d*2+1 );
-	for( ;d>0; )
-	{
-		for( i=d;i<n;i++ )
-		{
-			k=r[i];
-			for( j=i-d;j>=0 && k<r[j];j-=d  ) 
-				r[j+d]=r[j];
-			r[j+d]=k;
+	// 遍历两个数组，合并到merge数组中
+	while ( i < nums1.size() || j < nums2.size()) {
+		// 当i和j都指向他们各自的数组时，才作比较
+		if (i < nums1.size() && j < nums2.size()) {
+			if (nums1[i] < nums2[j]) merge.push_back(nums1[i++]);
+			else merge.push_back(nums2[j++]);
+		} else {        // 其中一个数组遍历完了，则不能作比较，会越界
+			if (i < nums1.size()) merge.push_back(nums1[i++]);
+			else merge.push_back(nums2[j++]);
 		}
-		d=(d-1)/2;
-	}  
+	}
+
+	cout << merge.size() << endl;
+	for (int i = 0; i < merge.size(); i++) {
+		cout << merge[i] << ' ';
+	}
+	// 求中位数：当merge长度为偶数时，需要取中间两数
+	if (merge.size() % 2 == 0) return (merge[merge.size() / 2 - 1] + merge[merge.size() / 2]) / 2.0;
+	else return merge[merge.size() / 2];
 }
 
-int main()
-{
-	static int p1=1,p2=5;
-	int a[5]={6,5,8,11,4},b[5]={6,5,8,11,4};
-	cout<<"Raw data: "<<endl;
-    for(int i=p1-1;i<p2;i++)
-		cout<<a[i]<<" ";
-	cout<<endl;
-	SortQuick(a,p1-1,p2-1);
-	cout<<"Quick sort result: "<<endl;
-	for(int i=p1-1;i<p2;i++)
-		cout<<a[i]<<" ";
-	cout<<endl;
-	ShellSort(b,p2-p1+1);
-	cout<<"Shell sort result: "<<endl;
-	for(int i=p1-1;i<p2;i++)
-		cout<<b[i]<<" ";
-    cout<<endl;
-    system("pause");
-    return 0;
+int main() {
+	vector<int> nums1;
+	vector<int> nums2;
+	nums1.push_back(1);
+	nums1.push_back(2);
+	nums2.push_back(3);
+	nums2.push_back(4);
+	double i = findMedianSortedArrays(nums1, nums2);
+	cout << i << endl;
+	system("pause");
+	return 0;
 }
