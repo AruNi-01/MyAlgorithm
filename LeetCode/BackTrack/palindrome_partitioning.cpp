@@ -1,3 +1,8 @@
+/*
+ * @Descripttion: 
+ * @Author: AruNi_Lu
+ * @Date: 2022-05-13 12:38:05
+ */
 // 131. 分割回文串
 
 /*
@@ -31,7 +36,7 @@ private:
         for (int i = startIndex; i < s.size(); i++) {
             if (isPalindrome(s, startIndex, i)) {   // 是回文子串
                 // 获取[startIndex, i]在s中的子串
-                string srt = s.substr(startIndex, i - startIndex + 1);
+                string str = s.substr(startIndex, i - startIndex + 1);
                 path.push_back(str);
             } else {    // 如果不是则直接跳过
                 continue;

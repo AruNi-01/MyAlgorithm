@@ -1,5 +1,5 @@
 /*
- * @Descripttion: 
+ * @Descripttion: 647. 回文子串
  * @Author: AruNi_Lu
  * @Date: 2022-06-15 16:49:45
  */

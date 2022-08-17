@@ -58,7 +58,7 @@ private:
 
     // 验证棋盘是否合法
     bool isValid(int row, int col, vector<string>& chessboard, int n) {
-        // 因为在单层搜索的过程中，每一层递归，只会选for循环（也就是同一行）里的一个元素，所以不用去重了。
+        // 因为在单层搜索的过程中，每一层递归，只会选for循环（也就是同一行）里的一个元素，所以不用对同行去重了。
 
         // 检查列(该位置的上方)是否有皇后
         for (int i = 0; i < row; i++) {
@@ -84,12 +84,7 @@ private:
     }
 public:
     vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string>> chessboard;   // 先将棋盘全部置为空 '.'
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                chessboard[i][j] = '.';
-            }
-        }
+        vector<string> chessboard(n, string(n, '.'));   // 先将棋盘全部置为空 '.'
         backtrack(n, 0, chessboard);
         return result;
     }
